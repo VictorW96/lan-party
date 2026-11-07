@@ -5,7 +5,11 @@
     "price": "10€",
     "steam_appid": 202710,
     "max_players": 10,
-    "modes": ["Online", "PvP", "Koop"],
+    "modes": [
+      "Online",
+      "PvP",
+      "Koop"
+    ],
     "description": "Der Urvater der Action-MOBAs: Als riesiger Halbgott stürmt ihr die Arena, erobert Flaggen und rüstet euch mit Artefakten aus. 5 gegen 5 – wie gemacht für genau zehn Leute."
   },
   {
@@ -20,8 +24,16 @@
     "category": "newcomer",
     "price": "0€",
     "store_url": "https://cm-ss13.com",
-    "modes": ["Online", "PvP", "Koop"],
-    "tags": ["Rollenspiel", "Action", "Sci-Fi"],
+    "modes": [
+      "Online",
+      "PvP",
+      "Koop"
+    ],
+    "tags": [
+      "Rollenspiel",
+      "Action",
+      "Sci-Fi"
+    ],
     "note": "Läuft über BYOND",
     "description": "Colonial Marines – Space Station 13 im Aliens-Universum: Marines gegen Xenomorphs auf großen Community-Servern. Retro-Grafik, tiefes Rollenspiel und pures Chaos, bei dem jede Runde eine eigene Geschichte schreibt."
   },
@@ -55,8 +67,13 @@
     "price": "0€",
     "store_url": "https://www.myabandonware.com/game/blur-gls",
     "max_players": 20,
-    "modes": ["PvP"],
-    "tags": ["Rennspiel", "Arcade"],
+    "modes": [
+      "PvP"
+    ],
+    "tags": [
+      "Rennspiel",
+      "Arcade"
+    ],
     "note": "Abandonware",
     "description": "Arcade-Racer mit Power-ups von Bizarre Creations: Mario Kart trifft auf echte Autos und Nachtrennen voller Neon. Bis zu 20 Fahrer in einem Rennen – heute nur noch als Abandonware zu haben."
   },
@@ -110,7 +127,10 @@
     "category": "classic",
     "steam_appid": 10180,
     "max_players": 18,
-    "modes": ["LAN", "PvP"],
+    "modes": [
+      "LAN",
+      "PvP"
+    ],
     "description": "Der Shooter-Klassiker von 2009: Terminal, Rust, Highrise – schnelle Matches, Killstreaks und Nostalgie pur. Auf der LAN über Community-Server."
   },
   {
@@ -119,8 +139,16 @@
     "price": "0€",
     "store_url": "https://www.beyondallreason.info",
     "max_players": 16,
-    "modes": ["LAN", "Online", "PvP", "Koop"],
-    "tags": ["Strategie", "RTS"],
+    "modes": [
+      "LAN",
+      "Online",
+      "PvP",
+      "Koop"
+    ],
+    "tags": [
+      "Strategie",
+      "RTS"
+    ],
     "description": "Kostenloses Open-Source-RTS im Geiste von Total Annihilation: Riesige Armeen, echte Ballistik und Teamschlachten bis acht gegen acht. Der Massenkrieg für die ganze Truppe."
   },
   {
@@ -147,8 +175,17 @@
     "category": "classic",
     "store_url": "https://warcraft3.blizzard.com",
     "max_players": 12,
-    "modes": ["LAN", "Online", "PvP", "Koop"],
-    "tags": ["Strategie", "RTS", "Custom Maps"],
+    "modes": [
+      "LAN",
+      "Online",
+      "PvP",
+      "Koop"
+    ],
+    "tags": [
+      "Strategie",
+      "RTS",
+      "Custom Maps"
+    ],
     "description": "Blizzards RTS-Legende und Heimat unzähliger Custom Maps – Tower Defense, DotA, Footies und mehr. Bis zu zwölf Spieler im LAN, Nostalgie inklusive."
   },
   {
@@ -157,7 +194,11 @@
     "price": "0€",
     "steam_appid": 730,
     "max_players": 10,
-    "modes": ["LAN", "Online", "PvP"],
+    "modes": [
+      "LAN",
+      "Online",
+      "PvP"
+    ],
     "description": "Der Taktik-Shooter schlechthin: Terroristen gegen Anti-Terror-Einheit, Bombe legen oder entschärfen. Fünf gegen fünf auf dem eigenen Server – LAN-Party-Pflichtprogramm."
   },
   {
@@ -243,5 +284,29 @@
     "questionable": true,
     "questionable_reason": "Noch offen, ob es für die ganze Gruppe passt",
     "description": "Detailverliebtes WWII-Echtzeitstrategiespiel mit direkter Einheitensteuerung: fünf Fraktionen, 65 Karten, Hunderte Fahrzeuge und große Multiplayer-Schlachten im LAN oder online."
+  },
+  {
+    "name": "Defense of Solaris",
+    "category": "newcomer",
+    "since": 2,
+    "price": "0€",
+    "store_url": "https://defense-of-solaris.com",
+    "image_url": "/games/defense-of-solaris.jpg",
+    "hero_url": "/games/defense-of-solaris.jpg",
+    "screenshots": [
+      "/games/defense-of-solaris-gameplay.jpg"
+    ],
+    "max_players": 12,
+    "modes": [
+      "Online",
+      "Koop"
+    ],
+    "tags": [
+      "Tower Defense",
+      "Roguelike",
+      "Browser"
+    ],
+    "note": "Victors eigenes Spiel",
+    "description": "Kooperatives Tower Defense mit Roguelike-Elementen, direkt im Browser – inspiriert von der Warcraft-III-Map YouTD. Bis zu zwölf Spieler halten gemeinsam die Lanes, ziehen Türme aus dem Legion Deck, schmieden Items und überstehen Welle um Welle."
   }
 ]
