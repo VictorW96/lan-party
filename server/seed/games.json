@@ -308,5 +308,28 @@
     ],
     "note": "Victors eigenes Spiel",
     "description": "Kooperatives Tower Defense mit Roguelike-Elementen, direkt im Browser – inspiriert von der Warcraft-III-Map YouTD. Bis zu zwölf Spieler halten gemeinsam die Lanes, ziehen Türme aus dem Legion Deck, schmieden Items und überstehen Welle um Welle."
+  },
+  {
+    "name": "Battle for Middle-earth II: Edain Mod",
+    "category": "newcomer",
+    "since": 3,
+    "price": "0€",
+    "store_url": "https://www.moddb.com/mods/edain-mod",
+    "max_players": 8,
+    "modes": [
+      "LAN",
+      "Online",
+      "PvP",
+      "Koop"
+    ],
+    "tags": [
+      "Echtzeitstrategie",
+      "Herr der Ringe",
+      "Mod"
+    ],
+    "note": "Über den BFME Launcher",
+    "questionable": true,
+    "questionable_reason": "Nur bis 8 Spieler",
+    "description": "Große Fan-Mod für Schlacht um Mittelerde II: Aufstieg des Hexenkönigs. Sie überarbeitet alle Völker, Helden und Festungen und hält sich eng an Tolkiens Bücher. Echtzeitstrategie mit Basisbau, bis zu acht Spieler pro Partie."
   }
 ]
