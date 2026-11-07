@@ -1,78 +1,123 @@
-# LAN-Wahl · House of Gaming
+# LAN-Wahl
 
-Abstimmungsseite für unsere LAN-Party im House of Gaming in Miesbach. Läuft unter
-**https://victor-wolf.com/lanparty** im k3s-Cluster von Defense of Solaris.
+A small, invite-only voting site for deciding what a group plays at a LAN party. Everyone gets a
+fixed number of votes, can suggest games straight from Steam, and can mark the games they really
+don't want to play. The interface is in German.
 
-- Jeder Freund hat einen eigenen Account und **10 Votes** (max. 2 pro Spiel). Höchstens **6 davon dürfen auf
-  Klassiker** gehen, der Rest muss an Newcomer. Alles per Env-Variable änderbar.
-- Mit **Daumen runter** markiert man Spiele, die man auf keinen Fall spielen will. Das ändert die Reihenfolge
-  nicht, zeigt aber allen, wer dagegen ist. Daumen runter und Votes auf dasselbe Spiel schließen sich aus.
-- Die Liste wechselt zwischen **Klassikern** und **Newcomern**, jeweils nach Votes sortiert. Sobald eine
-  Kategorie keine Spiele mit Votes mehr hat, geht es rein nach Votes weiter (`server/ranking.ts`).
-- Spiele mit Tag **„Fraglich“** sind nicht sicher LAN-tauglich (Ziel: mindestens 10 Spieler gemeinsam).
-- Neue Spiele sucht man direkt auf Steam aus. Bilder, Screenshots, Beschreibung, Preis und Multiplayer-Modi
-  kommen automatisch. Spiele unter 10 Spielern, ohne Multiplayer oder noch nicht erschienene werden
-  automatisch als fraglich markiert. Ohne Steam reicht ein Link: Bild und Text kommen dann von der Website.
-- Optional: Mit `ANTHROPIC_API_KEY` recherchiert Claude (mit Websuche) neue Spiele zusätzlich: deutsche
-  Beschreibung, maximale Spielerzahl, LAN/Online und ob es fraglich ist.
+Built for a LAN party among friends. It runs as a single Node process with an SQLite file, so it's
+easy to host yourself.
 
-## Login-Konzept
+## How it works
 
-Keine offene Registrierung. Der Admin erstellt im Admin-Bereich pro Freund einen **persönlichen
-Einladungslink**, der genau einmal funktioniert. Darüber legt der Freund Namen und Passwort fest und ist
-danach eingeloggt (Session-Cookie für 180 Tage). So kommen nur eingeladene Leute auf die Seite, und
-jeder Account hat genau ein Vote-Kontingent. Vergessene Passwörter: Admin → „Passwort-Reset-Link“.
+- **Votes.** Each person has 10 votes and can put up to 2 on one game. At most 6 of them may go to
+  **classics** (games the group already knows); the rest go to **newcomers**. All limits are
+  configurable.
+- **Ranking.** The list alternates between the top classic and the top newcomer, each sorted by
+  votes. Once one category runs out of games with votes, the rest is sorted by votes alone
+  (`server/ranking.ts`).
+- **Thumbs down.** Marks a game you really don't want to play. It doesn't change the ranking, but
+  everyone can see who is against a game. A thumbs down and votes on the same game exclude each
+  other.
+- **Questionable games.** Games marked *fraglich* might not work for the whole group (the target is
+  at least 10 players together).
+- **Suggesting games.** Search Steam right in the app; cover art, screenshots, description, price
+  and multiplayer modes are filled in automatically. Games for fewer than 10 players, without
+  multiplayer, or not yet released are marked questionable. Games that aren't on Steam just need a
+  link; the image and text come from that page.
+- **Optional AI check.** With `ANTHROPIC_API_KEY` set, Claude researches newly added games (with web
+  search) and adds a German description, the maximum player count, LAN/online support and whether
+  the game is questionable.
 
-Beim allerersten Start gibt es noch keinen Admin. Dann steht ein Admin-Einladungslink im Log.
+## Accounts and invites
 
-## Lokal entwickeln
+There is no open sign-up. An admin creates a **personal invite link** for each person in the admin
+area. The link works once: the person picks a name and password and is logged in (the session
+cookie lasts 180 days). That way only invited people get in, and each account has exactly one vote
+budget. For forgotten passwords the admin creates a password-reset link.
 
-Node 22.18+ (führt TypeScript direkt aus, SQLite ist eingebaut).
+On the very first start there is no admin yet, so the server prints an admin invite link to its log.
+
+## Local development
+
+Requires Node 22.18+ (it runs TypeScript directly and has SQLite built in).
 
 ```bash
 npm install
-npm run dev:server   # API auf :3000
-npm run dev:web      # in einem zweiten Terminal: Vite auf http://localhost:5173/lanparty/
+npm run dev:server   # API on :3000
+npm run dev:web      # in a second terminal: Vite on http://localhost:5173/lanparty/
 ```
 
-Den Admin-Einladungslink zeigt die Server-Konsole. Tests und Typecheck: `npm test`, `npm run typecheck`.
+The server console shows the admin invite link. Tests and type checks: `npm test`, `npm run typecheck`.
 
-## Deployment
+## Running it
 
-1. **DNS:** A-Record für `victor-wolf.com` auf die IP des Hetzner-Servers setzen (gleiche IP wie
-   `defense-of-solaris.com`). Traefik holt das Let's-Encrypt-Zertifikat automatisch per HTTP-Challenge.
-2. **Image bauen:** Repo nach GitHub pushen (`VictorW96/lan-party`) und einen Tag pushen.
-   `.github/workflows/release.yml` baut `ghcr.io/victorw96/lan-party:latest`.
-   Ist das Repo privat, das Package auf GitHub auf *public* stellen oder ein `imagePullSecret` anlegen.
-3. **Optional, KI-Anreicherung:**
-   ```bash
-   kubectl create namespace lanparty
-   kubectl -n lanparty create secret generic lanparty-secrets --from-literal=ANTHROPIC_API_KEY=sk-ant-...
-   ```
-4. **Ausrollen:**
-   ```bash
-   kubectl apply -k k8s
-   ```
-5. **Admin-Link holen:**
-   ```bash
-   kubectl -n lanparty logs deploy/lanparty
-   ```
-   Weitere Links gibt's im Admin-Bereich der Seite oder per CLI:
-   `kubectl -n lanparty exec deploy/lanparty -- node server/cli.ts invite "Max"`.
+Pushing a tag builds the image `ghcr.io/victorw96/lan-party` (`.github/workflows/release.yml`),
+tagged with the version and `latest`. The app is served under `/lanparty/` by default, with a
+health check at `/healthz`.
 
-`victor-wolf.com/` leitet auf `/lanparty/` um. Die Datenbank liegt als SQLite-Datei auf dem PVC
-`lanparty-data` (Backup: `kubectl -n lanparty cp <pod>:/data/lanparty.db ./backup.db`).
+### Docker
 
-## Konfiguration
+```bash
+docker run -d -p 3000:3000 -v lanparty-data:/data \
+  -e PUBLIC_URL=https://example.com/lanparty \
+  ghcr.io/victorw96/lan-party:latest
+```
 
-| Variable | Standard | Bedeutung |
+### Kubernetes
+
+`k8s/` holds a Kustomize setup for k3s with Traefik and Let's Encrypt: namespace, a 1 Gi volume for
+the database, deployment, service and ingress. Before applying it, put your own host into
+`k8s/ingress.yaml` and your public URL into `PUBLIC_URL` in `k8s/deployment.yaml`.
+
+```bash
+kubectl apply -k k8s
+kubectl -n lanparty logs deploy/lanparty   # admin invite link on first start
+```
+
+Optional AI check (the pod reads the secret on start, so restart it afterwards):
+
+```bash
+kubectl -n lanparty create secret generic lanparty-secrets --from-literal=ANTHROPIC_API_KEY=<your key>
+kubectl -n lanparty rollout restart deploy/lanparty
+```
+
+After a new release, `kubectl -n lanparty rollout restart deploy/lanparty` pulls the new `latest`
+image. If you changed the manifests, run `kubectl apply -k k8s` first.
+
+Back up the database with `kubectl -n lanparty cp <pod>:/data/lanparty.db ./backup.db`.
+
+### Command line
+
+Invite links, password resets and the account list are also available from the shell:
+
+```bash
+node server/cli.ts invite "Max" [--admin]
+node server/cli.ts reset "Max"
+node server/cli.ts users
+```
+
+Inside the cluster, prefix these with `kubectl -n lanparty exec deploy/lanparty --`.
+
+## Starting game list
+
+`server/seed/games.json` is the list a fresh database starts with. Each entry can carry a `since`
+version. An existing database only receives entries from versions it hasn't seen yet, so adding a
+game there never touches games people added themselves, existing votes, or games an admin deleted.
+To add a game later, append it with `since` set one higher than the current highest value.
+
+## Configuration
+
+| Variable | Default | Meaning |
 |---|---|---|
-| `BASE_PATH` | `/lanparty` | URL-Präfix |
-| `PUBLIC_URL` | `http://localhost:5173/lanparty` | Basis für Einladungslinks |
-| `MAX_VOTES` | `10` | Votes pro Person |
-| `MAX_VOTES_PER_GAME` | `2` | Votes, die man auf ein Spiel stapeln darf |
-| `MAX_CLASSIC_VOTES` | `6` | Davon höchstens so viele für Klassiker |
-| `MIN_PLAYERS` | `10` | Ab wie vielen Spielern ein Spiel als geeignet gilt |
-| `ANTHROPIC_API_KEY` | – | Aktiviert die Claude-Recherche für neue Spiele |
-| `ANTHROPIC_MODEL` | `claude-opus-5-5` | Modell für die Recherche |
-| `DATA_DIR` | `./data` | Ordner der SQLite-Datenbank |
+| `BASE_PATH` | `/lanparty` | URL prefix the app is served under |
+| `PUBLIC_URL` | `http://localhost:5173/lanparty` | Base for invite links |
+| `PORT` | `3000` | HTTP port |
+| `MAX_VOTES` | `10` | Votes per person |
+| `MAX_VOTES_PER_GAME` | `2` | Votes one person can stack on a single game |
+| `MAX_CLASSIC_VOTES` | `6` | How many of those may go to classics |
+| `MIN_PLAYERS` | `10` | Player count a game needs to count as suitable |
+| `ANTHROPIC_API_KEY` | (none) | Turns on the Claude research for new games |
+| `ANTHROPIC_MODEL` | `claude-opus-5-5` | Model used for that research |
+| `DATA_DIR` | `./data` | Folder for the SQLite database |
+
+The design notes behind the look of the site are in [docs/redesign-concept.md](docs/redesign-concept.md).
