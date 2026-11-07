@@ -1,0 +1,42 @@
+# victor-wolf.com/lanparty → app; victor-wolf.com/ → redirect to /lanparty/.
+# Uses the Traefik + Let's Encrypt resolver already configured for Defense of Solaris.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: root-redirect
+  namespace: lanparty
+spec:
+  redirectRegex:
+    regex: ^https?://([^/]+)/?$
+    replacement: https://${1}/lanparty/
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lanparty
+  namespace: lanparty
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+    traefik.ingress.kubernetes.io/router.middlewares: lanparty-root-redirect@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: victor-wolf.com
+      http:
+        paths:
+          - path: /lanparty
+            pathType: Prefix
+            backend:
+              service:
+                name: lanparty
+                port:
+                  number: 80
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: lanparty
+                port:
+                  number: 80

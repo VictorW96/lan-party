@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lanparty
+  namespace: lanparty
+  labels:
+    app: lanparty
+spec:
+  replicas: 1
+  # SQLite on a ReadWriteOnce volume: never run two pods at once.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: lanparty
+  template:
+    metadata:
+      labels:
+        app: lanparty
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: lanparty
+          image: ghcr.io/victorw96/lan-party:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: BASE_PATH
+              value: /lanparty
+            - name: PUBLIC_URL
+              value: https://victor-wolf.com/lanparty
+            - name: MAX_VOTES
+              value: "6"
+            - name: MAX_VOTES_PER_GAME
+              value: "1"
+          # Optional: ANTHROPIC_API_KEY turns on the Claude check for newly added games.
+          envFrom:
+            - secretRef:
+                name: lanparty-secrets
+                optional: true
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: lanparty-data

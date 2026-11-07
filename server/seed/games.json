@@ -1,0 +1,247 @@
+[
+  {
+    "name": "Demigod",
+    "category": "newcomer",
+    "price": "10€",
+    "steam_appid": 202710,
+    "max_players": 10,
+    "modes": ["Online", "PvP", "Koop"],
+    "description": "Der Urvater der Action-MOBAs: Als riesiger Halbgott stürmt ihr die Arena, erobert Flaggen und rüstet euch mit Artefakten aus. 5 gegen 5 – wie gemacht für genau zehn Leute."
+  },
+  {
+    "name": "Territory Control 2",
+    "category": "newcomer",
+    "price": "20€",
+    "steam_appid": 690290,
+    "description": "2D-Multiplayer-Sandbox aus Industrie, Fraktionen und Gefechten: Fabriken bauen, eigene Waffen und Werkzeuge konstruieren, handeln – oder sich gegenseitig in die Luft jagen. Mit eigenem Server für die ganze Truppe."
+  },
+  {
+    "name": "CM-SS13",
+    "category": "newcomer",
+    "price": "0€",
+    "store_url": "https://cm-ss13.com",
+    "modes": ["Online", "PvP", "Koop"],
+    "tags": ["Rollenspiel", "Action", "Sci-Fi"],
+    "note": "Läuft über BYOND",
+    "description": "Colonial Marines – Space Station 13 im Aliens-Universum: Marines gegen Xenomorphs auf großen Community-Servern. Retro-Grafik, tiefes Rollenspiel und pures Chaos, bei dem jede Runde eine eigene Geschichte schreibt."
+  },
+  {
+    "name": "DSS 2: War Industry",
+    "category": "newcomer",
+    "price": "18€",
+    "steam_appid": 3582440,
+    "note": "Koop",
+    "description": "Echtzeit-Grand-Strategy: Armeen befehligen, Städte bauen und automatisierte Versorgungsrouten aufziehen. Im Koop führt ihr gemeinsam eine ganze Kriegswirtschaft."
+  },
+  {
+    "name": "Alien Swarm: Reactive Drop",
+    "category": "newcomer",
+    "price": "0€",
+    "steam_appid": 563560,
+    "note": "Dedicated Server",
+    "description": "Kooperativer Top-Down-Shooter: Ein Squad Marines kämpft sich durch Alien-verseuchte Basen, deckt sich gegenseitig und schweißt Türen zu. Mit eigenem Dedicated Server sind auch größere Runden drin."
+  },
+  {
+    "name": "Darwin Project",
+    "category": "newcomer",
+    "price": "0€",
+    "steam_appid": 544920,
+    "max_players": 10,
+    "description": "Battle Royale für genau zehn Spieler in einer verschneiten Arena: Spuren lesen, Ausrüstung craften, nicht erfrieren – und als Letzter übrig bleiben. Einer kann als Show-Director das Match aufmischen."
+  },
+  {
+    "name": "Blur",
+    "category": "newcomer",
+    "price": "0€",
+    "store_url": "https://www.myabandonware.com/game/blur-gls",
+    "max_players": 20,
+    "modes": ["PvP"],
+    "tags": ["Rennspiel", "Arcade"],
+    "note": "Abandonware",
+    "description": "Arcade-Racer mit Power-ups von Bizarre Creations: Mario Kart trifft auf echte Autos und Nachtrennen voller Neon. Bis zu 20 Fahrer in einem Rennen – heute nur noch als Abandonware zu haben."
+  },
+  {
+    "name": "Regular Human Basketball",
+    "category": "newcomer",
+    "price": "5€",
+    "steam_appid": 661940,
+    "max_players": 10,
+    "description": "Basketball mit riesigen, wackeligen Mechs: Jedes Team steuert gemeinsam einen Roboter von innen – einer fährt, einer greift, alle schreien. Absurd, laut und perfekt für zwei Teams à fünf."
+  },
+  {
+    "name": "The Showdown Effect: Reloaded",
+    "category": "newcomer",
+    "price": "0€",
+    "steam_appid": 2242420,
+    "description": "Überdrehte 2D-Arena-Action im Stil der 80er-Actionfilme: Schießen, schwingen, Sprüche klopfen. Die kostenlose Neuauflage des Kult-Brawlers."
+  },
+  {
+    "name": "Hexarchy",
+    "category": "newcomer",
+    "price": "2–20€",
+    "steam_appid": 1356810,
+    "description": "Rundenbasiertes 4X als Battle Royale: Alle ziehen gleichzeitig, Reiche wachsen, Karten schrumpfen. Schnelle Partien – leicht zu lernen, schwer zu meistern."
+  },
+  {
+    "name": "Tor Eternum",
+    "category": "newcomer",
+    "price": "2€",
+    "steam_appid": 1491460,
+    "max_players": 11,
+    "note": "Koop-RPG",
+    "description": "Frenetisches Online-Koop-Action-RPG: Mit bis zu zehn Freunden erklimmt ihr einen rätselhaften Turm, levelt eure Helden und stellt euch prozedural generierten Bossen."
+  },
+  {
+    "name": "Carrier Command 2",
+    "category": "newcomer",
+    "price": "29€",
+    "steam_appid": 1489630,
+    "description": "Echtzeit-Strategie trifft Simulation: Gemeinsam bemannt ihr einen Flugzeugträger, fliegt Drohnen, steuert Amphibienfahrzeuge und koordiniert alles von der Brücke aus – Crew gegen Crew."
+  },
+  {
+    "name": "Wreckfest",
+    "category": "classic",
+    "steam_appid": 228380,
+    "max_players": 24,
+    "description": "Crash-Racing von den FlatOut-Machern: realistische Schadensphysik, Demolition Derby und Rasenmäher-Rennen mit bis zu 24 Fahrern. Unser Garant für Blechschaden."
+  },
+  {
+    "name": "Call of Duty: Modern Warfare 2",
+    "category": "classic",
+    "steam_appid": 10180,
+    "max_players": 18,
+    "modes": ["LAN", "PvP"],
+    "description": "Der Shooter-Klassiker von 2009: Terminal, Rust, Highrise – schnelle Matches, Killstreaks und Nostalgie pur. Auf der LAN über Community-Server."
+  },
+  {
+    "name": "Beyond All Reason",
+    "category": "classic",
+    "price": "0€",
+    "store_url": "https://www.beyondallreason.info",
+    "max_players": 16,
+    "modes": ["LAN", "Online", "PvP", "Koop"],
+    "tags": ["Strategie", "RTS"],
+    "description": "Kostenloses Open-Source-RTS im Geiste von Total Annihilation: Riesige Armeen, echte Ballistik und Teamschlachten bis acht gegen acht. Der Massenkrieg für die ganze Truppe."
+  },
+  {
+    "name": "Nuclear Option",
+    "category": "classic",
+    "steam_appid": 2168680,
+    "description": "Kampfjets der nahen Zukunft mit zugänglicher Flugphysik: Luft-, See- und Bodenziele in dynamischen Schlachten – bis hin zu taktischen Atomwaffen. Pilot gegen Pilot, Team gegen Team."
+  },
+  {
+    "name": "Natural Selection 2",
+    "category": "classic",
+    "steam_appid": 4920,
+    "description": "Marines gegen Aliens mit Commander-Twist: Pro Team baut einer als Commander die Basis aus der Vogelperspektive, alle anderen kämpfen in der Ego-Perspektive. Asymmetrisch, taktisch, legendär."
+  },
+  {
+    "name": "King Arthur's Gold",
+    "category": "classic",
+    "price": "0€",
+    "steam_appid": 219830,
+    "description": "2D-Mittelalter-Sandbox: Ritter, Bogenschützen und Baumeister errichten Burgen, graben Tunnel und bringen gegnerische Festungen mit echter Physik zum Einsturz. Kostenlos und herrlich chaotisch."
+  },
+  {
+    "name": "Warcraft III",
+    "category": "classic",
+    "store_url": "https://warcraft3.blizzard.com",
+    "max_players": 12,
+    "modes": ["LAN", "Online", "PvP", "Koop"],
+    "tags": ["Strategie", "RTS", "Custom Maps"],
+    "description": "Blizzards RTS-Legende und Heimat unzähliger Custom Maps – Tower Defense, DotA, Footies und mehr. Bis zu zwölf Spieler im LAN, Nostalgie inklusive."
+  },
+  {
+    "name": "Counter-Strike",
+    "category": "classic",
+    "price": "0€",
+    "steam_appid": 730,
+    "max_players": 10,
+    "modes": ["LAN", "Online", "PvP"],
+    "description": "Der Taktik-Shooter schlechthin: Terroristen gegen Anti-Terror-Einheit, Bombe legen oder entschärfen. Fünf gegen fünf auf dem eigenen Server – LAN-Party-Pflichtprogramm."
+  },
+  {
+    "name": "Worms Ultimate Mayhem",
+    "category": "classic",
+    "steam_appid": 70600,
+    "questionable": true,
+    "questionable_reason": "Wenig Spieler – erst, wenn genügend ins Bett gegangen sind",
+    "description": "Rundenbasierte Wurm-Kriegsführung in 3D: Heilige Handgranate, explodierende Schafe und Bananenbomben. Der Absacker für die späten Stunden."
+  },
+  {
+    "name": "Barotrauma",
+    "category": "classic",
+    "steam_appid": 602960,
+    "max_players": 16,
+    "description": "Koop-U-Boot-Survival-Horror auf dem Eismond Europa: Kapitän, Ingenieure, Mechaniker und Ärzte halten gemeinsam ein U-Boot am Leben – bis die Monster kommen. Oder der Verräter an Bord zuschlägt."
+  },
+  {
+    "name": "Elite Rogue",
+    "category": "newcomer",
+    "steam_appid": 2304480,
+    "max_players": 10,
+    "note": "Koop",
+    "questionable": true,
+    "questionable_reason": "Noch nicht erschienen",
+    "description": "Roguelike-Kopfgeldjagd voller Chaos und Verrat: Allein oder mit bis zu zehn Spielern Aufträge erledigen, Darkmatter sammeln und spielbrechende Kräfte freischalten."
+  },
+  {
+    "name": "Granvir",
+    "category": "newcomer",
+    "price": "15€",
+    "steam_appid": 2743460,
+    "note": "Koop",
+    "questionable": true,
+    "questionable_reason": "Unklar, ob die ganze Gruppe zusammen spielen kann",
+    "description": "Third-Person-Roguelite mit Mechs: Das Schlachtfeld nach Teilen durchsuchen, euren Granvir umbauen und gemeinsam einen Guerillakrieg führen."
+  },
+  {
+    "name": "Shadows of Chroma Tower",
+    "category": "newcomer",
+    "steam_appid": 2713380,
+    "note": "Playtest?",
+    "questionable": true,
+    "questionable_reason": "Noch nicht erschienen – evtl. über einen Playtest spielbar",
+    "description": "Dungeon Crawler trifft ARPG: Wählt eine Fraktion, kämpft euch durch PvE-Dungeons voller Horden und Riesenbosse und ringt in asynchronen PvP-Modi um die Kontrolle über den Turm."
+  },
+  {
+    "name": "Tribes of Midgard",
+    "category": "newcomer",
+    "price": "20€",
+    "steam_appid": 858820,
+    "max_players": 10,
+    "note": "Koop im Saga-Modus",
+    "questionable": true,
+    "questionable_reason": "Nur im Saga-Modus mit bis zu zehn Spielern",
+    "description": "Survival-Action-RPG für bis zu zehn Wikinger: Dorf verteidigen, legendäre Ausrüstung schmieden und Riesen aufhalten, die Ragnarök herbeiführen wollen."
+  },
+  {
+    "name": "Stars of Icarus",
+    "category": "newcomer",
+    "steam_appid": 2278950,
+    "note": "Playtest?",
+    "questionable": true,
+    "questionable_reason": "Noch nicht erschienen – evtl. über einen Playtest spielbar",
+    "description": "Crew-basiertes Raumschlacht-PvP: Fregatten befehligen, Jäger fliegen, Geschütze besetzen. Nur die Crew, die gut kommuniziert, überlebt."
+  },
+  {
+    "name": "NARAKA: BLADEPOINT",
+    "category": "newcomer",
+    "price": "0€",
+    "steam_appid": 1203220,
+    "max_players": 60,
+    "questionable": true,
+    "questionable_reason": "Online-Battle-Royale – unklar, ob wir alle zusammen in eine Runde kommen",
+    "description": "Martial-Arts-Battle-Royale mit bis zu 60 Spielern: Enterhaken, Wandläufe, Nah- und Fernkampfwaffen und Helden mit epischen Fähigkeiten."
+  },
+  {
+    "name": "Men of War: Assault Squad 2",
+    "category": "newcomer",
+    "price": "30€",
+    "steam_appid": 244450,
+    "max_players": 16,
+    "questionable": true,
+    "questionable_reason": "Noch offen, ob es für die ganze Gruppe passt",
+    "description": "Detailverliebtes WWII-Echtzeitstrategiespiel mit direkter Einheitensteuerung: fünf Fraktionen, 65 Karten, Hunderte Fahrzeuge und große Multiplayer-Schlachten im LAN oder online."
+  }
+]

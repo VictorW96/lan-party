@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lanparty
+  namespace: lanparty
+spec:
+  selector:
+    app: lanparty
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

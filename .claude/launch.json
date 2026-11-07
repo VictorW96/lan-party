@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "lanparty",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--disable-warning=ExperimentalWarning", "server/index.ts"],
+      "env": { "PORT": "3000", "PUBLIC_URL": "http://localhost:3000/lanparty", "DATA_DIR": "./data" },
+      "port": 3000,
+      "url": "http://localhost:3000"
+    }
+  ]
+}

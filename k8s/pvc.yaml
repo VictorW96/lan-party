@@ -1,0 +1,12 @@
+# SQLite database (accounts, games, votes). k3s ships the local-path provisioner.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lanparty-data
+  namespace: lanparty
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
