@@ -1286,12 +1286,6 @@ strong {
   margin: 18px 0 0;
 }
 
-.auth-foot {
-  font-size: 14px;
-  color: var(--ink-2);
-  margin-top: 18px;
-}
-
 /* ------------------------------------------------------------ admin */
 
 .admin h1 {

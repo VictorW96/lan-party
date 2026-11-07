@@ -10,7 +10,6 @@ function AuthShell({ children, title }: { children: ReactNode; title: string }) 
         <h1>{title}</h1>
         {children}
       </div>
-      <p className="auth-foot">House of Gaming, Miesbach</p>
     </div>
   );
 }

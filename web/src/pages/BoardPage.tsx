@@ -187,7 +187,7 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
           </p>
           <h1>Was zocken wir auf der LAN?</h1>
           <p className="lead">
-            Du hast {maxVotes} Votes, höchstens {maxVotesPerGame} pro Spiel. {maxClassicVotes} davon dürfen an Klassiker gehen, der Rest
+            Du hast {maxVotes} Votes, höchstens {maxVotesPerGame} pro Spiel. Maximal {maxClassicVotes} davon dürfen an Klassiker gehen, der Rest
             an Newcomer. Auf die Liste gehört, was mindestens {board.settings.minPlayers} Leute zusammen spielen können. Oben stehen
             Klassiker und Newcomer abwechselnd.
           </p>

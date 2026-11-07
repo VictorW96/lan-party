@@ -73,7 +73,7 @@ not by colour: Klassiker is a filled ink tag, Newcomer an outlined one.
 | Before | After |
 | --- | --- |
 | HOUSE OF GAMING · MIESBACH (eyebrow) | dateline: "House of Gaming, Miesbach · Sa., 14. März, 18 Uhr" |
-| Du hast **8 Votes** für die Spiele, die du unbedingt spielen willst – davon höchstens 5 für Klassiker, der Rest geht an Newcomer. … | Du hast 8 Votes, höchstens 2 pro Spiel. 5 davon dürfen an Klassiker gehen, der Rest an Newcomer. Auf die Liste gehört, was mindestens 10 Leute zusammen spielen können. |
+| Du hast **8 Votes** für die Spiele, die du unbedingt spielen willst – davon höchstens 5 für Klassiker, der Rest geht an Newcomer. … | Du hast 8 Votes, höchstens 2 pro Spiel. Maximal 5 davon dürfen an Klassiker gehen, der Rest an Newcomer. Auf die Liste gehört, was mindestens 10 Leute zusammen spielen können. |
 | Maximal 5 Votes für Klassiker – vote einen Newcomer! | Deine 5 Klassiker-Votes sind vergeben. Der Rest geht an Newcomer. |
 | 🔒 Die Abstimmung ist geschlossen – das hier ist das Endergebnis. | Abstimmung geschlossen. Das ist das Endergebnis. |
 | Login für die Crew / Los geht's / Du bist eingeladen! | Anmelden / Account anlegen / Einladung |
