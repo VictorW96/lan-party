@@ -870,6 +870,78 @@ strong {
   white-space: nowrap;
 }
 
+.thumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  background: none;
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.thumbs b {
+  font-variant-numeric: tabular-nums;
+}
+
+.thumbs:hover:not(:disabled) {
+  color: var(--alert);
+  border-color: var(--alert);
+}
+
+.thumbs.on {
+  color: var(--paper);
+  background: var(--alert);
+  border-color: var(--alert);
+}
+
+.thumbs.on:hover:not(:disabled) {
+  color: var(--paper);
+}
+
+.thumbs.on svg path {
+  fill: currentColor;
+  fill-opacity: 0.25;
+}
+
+.thumbs:disabled {
+  cursor: not-allowed;
+}
+
+.game.is-thumbed-down .game-art {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.game.is-thumbed-down .game-title {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--alert);
+}
+
+.detail-against h4 {
+  color: var(--alert);
+}
+
+.vote-lg .thumbs {
+  width: 100%;
+  justify-content: center;
+  padding: 7px 10px;
+  border-color: var(--rule-strong);
+  font-size: 14px;
+}
+
+.vote-lg .thumbs b {
+  margin-left: 4px;
+  padding-left: 8px;
+  border-left: 1px solid currentColor;
+}
+
 .vote-lg {
   width: 100%;
   padding: 14px;

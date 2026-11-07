@@ -30,6 +30,9 @@ export type Game = {
   votes: number;
   voters: Voter[];
   myVotes: number;
+  /** Who gave this game a thumbs down ("lieber nicht"). */
+  thumbsDown: Pick<Voter, 'id' | 'name' | 'color'>[];
+  myThumbsDown: boolean;
 };
 
 export type Settings = {

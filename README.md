@@ -3,8 +3,10 @@
 Abstimmungsseite für unsere LAN-Party im House of Gaming in Miesbach. Läuft unter
 **https://victor-wolf.com/lanparty** im k3s-Cluster von Defense of Solaris.
 
-- Jeder Freund hat einen eigenen Account und **8 Votes** (max. 2 pro Spiel). Höchstens **5 davon dürfen auf
+- Jeder Freund hat einen eigenen Account und **10 Votes** (max. 2 pro Spiel). Höchstens **6 davon dürfen auf
   Klassiker** gehen, der Rest muss an Newcomer. Alles per Env-Variable änderbar.
+- Mit **Daumen runter** markiert man Spiele, die man auf keinen Fall spielen will. Das ändert die Reihenfolge
+  nicht, zeigt aber allen, wer dagegen ist. Daumen runter und Votes auf dasselbe Spiel schließen sich aus.
 - Die Liste wechselt zwischen **Klassikern** und **Newcomern**, jeweils nach Votes sortiert. Sobald eine
   Kategorie keine Spiele mit Votes mehr hat, geht es rein nach Votes weiter (`server/ranking.ts`).
 - Spiele mit Tag **„Fraglich“** sind nicht sicher LAN-tauglich (Ziel: mindestens 10 Spieler gemeinsam).
@@ -67,9 +69,9 @@ Den Admin-Einladungslink zeigt die Server-Konsole. Tests und Typecheck: `npm tes
 |---|---|---|
 | `BASE_PATH` | `/lanparty` | URL-Präfix |
 | `PUBLIC_URL` | `http://localhost:5173/lanparty` | Basis für Einladungslinks |
-| `MAX_VOTES` | `8` | Votes pro Person |
+| `MAX_VOTES` | `10` | Votes pro Person |
 | `MAX_VOTES_PER_GAME` | `2` | Votes, die man auf ein Spiel stapeln darf |
-| `MAX_CLASSIC_VOTES` | `5` | Davon höchstens so viele für Klassiker |
+| `MAX_CLASSIC_VOTES` | `6` | Davon höchstens so viele für Klassiker |
 | `MIN_PLAYERS` | `10` | Ab wie vielen Spielern ein Spiel als geeignet gilt |
 | `ANTHROPIC_API_KEY` | – | Aktiviert die Claude-Recherche für neue Spiele |
 | `ANTHROPIC_MODEL` | `claude-opus-5-5` | Modell für die Recherche |

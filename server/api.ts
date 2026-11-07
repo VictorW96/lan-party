@@ -156,6 +156,9 @@ function loadBoard(userId: number) {
   const voters = db
     .prepare('SELECT v.game_id, v.count, u.id, u.name, u.color FROM votes v JOIN users u ON u.id = v.user_id ORDER BY u.name')
     .all() as { game_id: number; count: number; id: number; name: string; color: string }[];
+  const thumbsDown = db
+    .prepare('SELECT t.game_id, u.id, u.name, u.color FROM thumbs_down t JOIN users u ON u.id = t.user_id ORDER BY u.name')
+    .all() as { game_id: number; id: number; name: string; color: string }[];
 
   const games = rows.map((r) => ({
     id: r.id,
@@ -181,6 +184,8 @@ function loadBoard(userId: number) {
     votes: r.votes,
     voters: voters.filter((v) => v.game_id === r.id).map(({ id, name, color, count }) => ({ id, name, color, count })),
     myVotes: voters.find((v) => v.game_id === r.id && v.id === userId)?.count ?? 0,
+    thumbsDown: thumbsDown.filter((t) => t.game_id === r.id).map(({ id, name, color }) => ({ id, name, color })),
+    myThumbsDown: thumbsDown.some((t) => t.game_id === r.id && t.id === userId),
   }));
 
   const { players } = db.prepare('SELECT COUNT(*) AS players FROM users').get() as { players: number };
@@ -213,10 +218,30 @@ api.put('/games/:id/vote', async (c) => {
     const error = voteLimitError(config, game, wanted, used, classic);
     if (error) throw new HTTPException(409, { message: error });
     if (wanted === 0) db.prepare('DELETE FROM votes WHERE user_id = ? AND game_id = ?').run(user.id, gameId);
-    else
+    else {
       db.prepare(
         'INSERT INTO votes (user_id, game_id, count) VALUES (?, ?, ?) ON CONFLICT(user_id, game_id) DO UPDATE SET count = excluded.count',
       ).run(user.id, gameId, wanted);
+      // Voting for a game takes back your thumbs down on it.
+      db.prepare('DELETE FROM thumbs_down WHERE user_id = ? AND game_id = ?').run(user.id, gameId);
+    }
+  });
+  return c.json(loadBoard(user.id));
+});
+
+api.put('/games/:id/thumbs-down', async (c) => {
+  const user = requireUser(c);
+  const gameId = Number(c.req.param('id'));
+  const { on } = await body<{ on: boolean }>(c);
+  if (!settings().votingOpen) throw new HTTPException(423, { message: 'Die Abstimmung ist geschlossen.' });
+
+  transaction(() => {
+    if (!db.prepare('SELECT 1 FROM games WHERE id = ?').get(gameId)) throw new HTTPException(404, { message: 'Spiel nicht gefunden.' });
+    if (on === true) {
+      db.prepare('INSERT OR IGNORE INTO thumbs_down (user_id, game_id) VALUES (?, ?)').run(user.id, gameId);
+      // A thumbs down frees the votes you had on that game.
+      db.prepare('DELETE FROM votes WHERE user_id = ? AND game_id = ?').run(user.id, gameId);
+    } else db.prepare('DELETE FROM thumbs_down WHERE user_id = ? AND game_id = ?').run(user.id, gameId);
   });
   return c.json(loadBoard(user.id));
 });

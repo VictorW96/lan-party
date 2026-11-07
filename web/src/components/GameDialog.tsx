@@ -91,6 +91,7 @@ export function GameDialog({
   board,
   user,
   onVote,
+  onThumbsDown,
   onClose,
   onChanged,
 }: {
@@ -98,6 +99,7 @@ export function GameDialog({
   board: Board;
   user: User;
   onVote: (g: Game, n: number) => void;
+  onThumbsDown: (g: Game, on: boolean) => void;
   onClose: () => void;
   onChanged: () => Promise<void>;
 }) {
@@ -167,7 +169,7 @@ export function GameDialog({
               )}
             </div>
             <aside className="detail-side">
-              <VoteButton game={game} board={board} onVote={onVote} large />
+              <VoteButton game={game} board={board} onVote={onVote} onThumbsDown={onThumbsDown} large />
               <div className="detail-voters">
                 <h4>{game.voters.length ? 'Dafür gestimmt' : 'Noch keine Votes'}</h4>
                 {game.voters.map((v) => (
@@ -177,6 +179,16 @@ export function GameDialog({
                   </div>
                 ))}
               </div>
+              {game.thumbsDown.length > 0 && (
+                <div className="detail-voters detail-against">
+                  <h4>Lieber nicht</h4>
+                  {game.thumbsDown.map((v) => (
+                    <div key={v.id} className="voter-line">
+                      <Avatar voter={v} size={22} /> {v.name}
+                    </div>
+                  ))}
+                </div>
+              )}
               <dl className="facts">
                 {game.releaseInfo && (
                   <>

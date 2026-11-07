@@ -69,6 +69,13 @@ db.exec(`
     PRIMARY KEY (user_id, game_id)
   );
 
+  -- "I really don't want to play this". Never alongside votes from the same user on the same game.
+  CREATE TABLE IF NOT EXISTS thumbs_down (
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    game_id INTEGER NOT NULL REFERENCES games(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, game_id)
+  );
+
   CREATE TABLE IF NOT EXISTS settings (
     key   TEXT PRIMARY KEY,
     value TEXT NOT NULL

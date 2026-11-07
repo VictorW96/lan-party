@@ -45,17 +45,19 @@ function GameRow({
   rank,
   board,
   onVote,
+  onThumbsDown,
   onOpen,
 }: {
   game: Game;
   rank: number;
   board: Board;
   onVote: (g: Game, n: number) => void;
+  onThumbsDown: (g: Game, on: boolean) => void;
   onOpen: (g: Game) => void;
 }) {
   return (
     <article
-      className={`game cat-${game.category}${game.questionable ? ' is-questionable' : ''}${game.myVotes ? ' is-voted' : ''}`}
+      className={`game cat-${game.category}${game.questionable ? ' is-questionable' : ''}${game.myVotes ? ' is-voted' : ''}${game.myThumbsDown ? ' is-thumbed-down' : ''}`}
       onClick={() => onOpen(game)}
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(game)}
@@ -80,7 +82,7 @@ function GameRow({
           <Voters voters={game.voters} />
         </div>
       </div>
-      <VoteButton game={game} board={board} onVote={onVote} />
+      <VoteButton game={game} board={board} onVote={onVote} onThumbsDown={onThumbsDown} />
     </article>
   );
 }
@@ -129,12 +131,44 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
     const delta = count - game.myVotes;
     setBoard({
       ...board,
-      games: board.games.map((g) => (g.id === game.id ? { ...g, myVotes: count, votes: g.votes + delta } : g)),
+      games: board.games.map((g) =>
+        g.id !== game.id
+          ? g
+          : {
+              ...g,
+              myVotes: count,
+              votes: g.votes + delta,
+              // A vote takes back your thumbs down on the same game.
+              ...(count > 0 && { myThumbsDown: false, thumbsDown: g.thumbsDown.filter((t) => t.id !== user.id) }),
+            },
+      ),
     });
     try {
       setBoard(await api<Board>(`/games/${game.id}/vote`, { method: 'PUT', body: { count } }));
     } catch (err) {
       setToast(err instanceof Error ? err.message : 'Vote fehlgeschlagen.');
+      void load();
+    }
+  };
+
+  const thumbsDown = async (game: Game, on: boolean) => {
+    if (!board) return;
+    const others = game.thumbsDown.filter((t) => t.id !== user.id);
+    setBoard({
+      ...board,
+      games: board.games.map((g) =>
+        g.id !== game.id
+          ? g
+          : on
+            ? // A thumbs down frees your votes on that game.
+              { ...g, myThumbsDown: true, thumbsDown: [...others, user], votes: g.votes - g.myVotes, myVotes: 0 }
+            : { ...g, myThumbsDown: false, thumbsDown: others },
+      ),
+    });
+    try {
+      setBoard(await api<Board>(`/games/${game.id}/thumbs-down`, { method: 'PUT', body: { on } }));
+    } catch (err) {
+      setToast(err instanceof Error ? err.message : 'Hat nicht geklappt.');
       void load();
     }
   };
@@ -189,7 +223,7 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
           <p className="lead">
             Du hast {maxVotes} Votes, höchstens {maxVotesPerGame} pro Spiel. Maximal {maxClassicVotes} davon dürfen an Klassiker gehen, der Rest
             an Newcomer. Auf die Liste gehört, was mindestens {board.settings.minPlayers} Leute zusammen spielen können. Oben stehen
-            Klassiker und Newcomer abwechselnd.
+            Klassiker und Newcomer abwechselnd. Mit dem Daumen nach unten zeigst du, was du auf keinen Fall spielen willst.
           </p>
           <dl className="tally">
             <div>
@@ -236,14 +270,20 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
 
         <section className="games">
           {visible.map(({ game, rank }) => (
-            <GameRow key={game.id} game={game} rank={rank} board={board} onVote={vote} onOpen={(g) => setOpenId(g.id)} />
+            <GameRow key={game.id} game={game} rank={rank} board={board} onVote={vote} onThumbsDown={thumbsDown} onOpen={(g) => setOpenId(g.id)} />
           ))}
           {!visible.length && <p className="empty">Nichts gefunden.</p>}
         </section>
       </main>
 
       {openGame && (
-        <GameDialog game={openGame} board={board} user={user} onVote={vote} onClose={() => setOpenId(null)} onChanged={load} />
+        <GameDialog
+          game={openGame}
+          board={board}
+          user={user}
+          onVote={vote}
+          onThumbsDown={thumbsDown}
+          onClose={() => setOpenId(null)} onChanged={load} />
       )}
       {adding && (
         <AddGameDialog
