@@ -51,7 +51,10 @@ export function Voters({ voters, max = 6 }: { voters: Voter[]; max?: number }) {
   return (
     <div className="voters" title={voters.map((v) => v.name + (v.count > 1 ? ` ×${v.count}` : '')).join(', ')}>
       {voters.slice(0, max).map((v) => (
-        <Avatar key={v.id} voter={v} />
+        <span key={v.id} className="voter">
+          <Avatar voter={v} />
+          {v.count > 1 && <span className="voter-count">×{v.count}</span>}
+        </span>
       ))}
       {voters.length > max && <span className="avatar avatar-more">+{voters.length - max}</span>}
     </div>

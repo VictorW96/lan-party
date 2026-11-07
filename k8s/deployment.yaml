@@ -35,7 +35,7 @@ spec:
             - name: MAX_VOTES
               value: "8"
             - name: MAX_VOTES_PER_GAME
-              value: "1"
+              value: "2"
             - name: MAX_CLASSIC_VOTES
               value: "5"
           # Optional: ANTHROPIC_API_KEY turns on the Claude check for newly added games.

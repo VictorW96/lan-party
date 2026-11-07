@@ -9,7 +9,7 @@ export const config = {
   dataDir: process.env.DATA_DIR ?? './data',
   webDist: process.env.WEB_DIST ?? './dist/web',
   maxVotes: Number(process.env.MAX_VOTES ?? 8),
-  maxVotesPerGame: Number(process.env.MAX_VOTES_PER_GAME ?? 1),
+  maxVotesPerGame: Number(process.env.MAX_VOTES_PER_GAME ?? 2),
   /** Cap on votes for classics, so everyone has to back some newcomers too. */
   maxClassicVotes: Number(process.env.MAX_CLASSIC_VOTES ?? 5),
   minPlayers: Number(process.env.MIN_PLAYERS ?? 10),

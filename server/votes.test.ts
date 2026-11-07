@@ -24,6 +24,14 @@ test('removing a vote is always allowed, even over budget', () => {
   assert.equal(voteLimitError(limits, classic, 0, 9, 6), null);
 });
 
+test('allows stacking two votes on one game, within the classic cap', () => {
+  const stacked: VoteLimits = { ...limits, maxVotesPerGame: 2 };
+  assert.equal(voteLimitError(stacked, newcomer, 2, 6, 3), null);
+  assert.equal(voteLimitError(stacked, classic, 2, 3, 3), null);
+  assert.match(voteLimitError(stacked, classic, 2, 4, 4)!, /Klassiker/);
+  assert.match(voteLimitError(stacked, newcomer, 3, 0, 0)!, /maximal 2/);
+});
+
 test('rejects invalid counts', () => {
   assert.notEqual(voteLimitError(limits, classic, 2, 0, 0), null);
   assert.notEqual(voteLimitError(limits, classic, -1, 0, 0), null);

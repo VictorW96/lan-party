@@ -44,17 +44,26 @@ export function VoteButton({
   }
 
   return (
-    <div className={`vote vote-stepper${size}${game.myVotes ? ' vote-active' : ''}`} onClick={(e) => e.stopPropagation()} title={blocked ?? undefined}>
+    <div
+      className={`vote vote-stepper${size}${game.myVotes ? ' vote-active' : ''}${!game.myVotes && classicFull ? ' vote-capped' : ''}`}
+      onClick={(e) => e.stopPropagation()}
+      title={blocked ?? undefined}
+    >
       <span className="vote-count">{game.votes}</span>
       <div className="vote-steps">
         <button disabled={!votingOpen || game.myVotes === 0} onClick={() => onVote(game, game.myVotes - 1)} aria-label="Vote entfernen">
           −
         </button>
-        <span>{game.myVotes}</span>
+        <span className="vote-mine" aria-label={`Deine Votes: ${game.myVotes} von ${maxVotesPerGame}`}>
+          {Array.from({ length: maxVotesPerGame }, (_, i) => (
+            <i key={i} className={i < game.myVotes ? 'on' : ''} />
+          ))}
+        </span>
         <button disabled={Boolean(blocked)} onClick={() => onVote(game, game.myVotes + 1)} aria-label="Vote hinzufügen">
           +
         </button>
       </div>
+      {!game.myVotes && classicFull && <span className="vote-label">Klassiker voll</span>}
     </div>
   );
 }
