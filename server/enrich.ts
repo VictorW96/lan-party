@@ -42,7 +42,11 @@ const ASSESSMENT_SCHEMA = {
   additionalProperties: false,
   required: ['description_de', 'max_players', 'lan', 'online', 'coop', 'pvp', 'questionable', 'questionable_reason', 'price_eur', 'tags'],
   properties: {
-    description_de: { type: 'string', description: '2–3 knackige deutsche Sätze: worum geht es, warum macht es in der Gruppe Spaß.' },
+    description_de: {
+      type: 'string',
+      description:
+        '2–3 sachliche deutsche Sätze: worum geht es, was macht man in der Gruppe konkret. Kurze Hauptsätze. Keine Gedankenstriche, keine Ausrufezeichen, keine Werbesprache oder Schlagworte wie "Pflichtprogramm", "Garant", "der ultimative", "schlechthin".',
+    },
     max_players: { ...nullableInt, description: 'Maximale Spielerzahl in EINER gemeinsamen Partie (inkl. Dedicated Server), null wenn unbekannt.' },
     lan: { type: 'boolean', description: 'Im LAN oder per selbst gehostetem/Dedicated Server spielbar.' },
     online: { type: 'boolean' },

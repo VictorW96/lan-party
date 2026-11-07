@@ -2,15 +2,15 @@ import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { api, ApiError } from '../api.ts';
 import { Logo } from '../components/Logo.tsx';
 
-function AuthShell({ children, kicker }: { children: ReactNode; kicker: string }) {
+function AuthShell({ children, title }: { children: ReactNode; title: string }) {
   return (
     <div className="auth">
       <div className="auth-card">
         <Logo />
-        <p className="kicker">{kicker}</p>
+        <h1>{title}</h1>
         {children}
       </div>
-      <p className="auth-foot">House of Gaming · Miesbach</p>
+      <p className="auth-foot">House of Gaming, Miesbach</p>
     </div>
   );
 }
@@ -36,7 +36,7 @@ export function LoginPage({ onDone }: { onDone: () => void }) {
   };
 
   return (
-    <AuthShell kicker="Login für die Crew">
+    <AuthShell title="Anmelden">
       <form onSubmit={submit} className="stack">
         <label className="field">
           <span>Name</span>
@@ -48,10 +48,10 @@ export function LoginPage({ onDone }: { onDone: () => void }) {
         </label>
         {error && <p className="error">{error}</p>}
         <button className="btn btn-primary btn-block" disabled={busy}>
-          {busy ? 'Moment …' : 'Einloggen'}
+          {busy ? 'Anmelden …' : 'Anmelden'}
         </button>
       </form>
-      <p className="hint">Noch keinen Account? Lass dir von Victor deinen persönlichen Einladungslink schicken.</p>
+      <p className="hint">Noch kein Account? Victor schickt dir einen Einladungslink.</p>
     </AuthShell>
   );
 }
@@ -93,7 +93,7 @@ export function InvitePage({ code, onDone }: { code: string; onDone: () => void 
 
   if (loadError)
     return (
-      <AuthShell kicker="Einladung">
+      <AuthShell title="Einladung">
         <p className="error">{loadError}</p>
         <a className="btn btn-ghost btn-block" href={import.meta.env.BASE_URL}>
           Zum Login
@@ -103,16 +103,16 @@ export function InvitePage({ code, onDone }: { code: string; onDone: () => void 
   if (!info) return <div className="splash">Lade Einladung …</div>;
 
   return (
-    <AuthShell kicker={info.resetName ? `Neues Passwort für ${info.resetName}` : 'Du bist eingeladen!'}>
+    <AuthShell title={info.resetName ? `Neues Passwort für ${info.resetName}` : 'Account anlegen'}>
       {!info.resetName && (
         <p className="lead">
-          Leg dir deinen Account an. Damit bekommst du <strong>{info.maxVotes} Votes</strong> für die Spiele, die wir auf der LAN zocken.
+          Mit deinem Account hast du {info.maxVotes} Votes für die Spiele, die wir auf der LAN zocken.
         </p>
       )}
       <form onSubmit={submit} className="stack">
         {!info.resetName && (
           <label className="field">
-            <span>Dein Name (so sehen dich die anderen)</span>
+            <span>Name (sehen die anderen)</span>
             <input value={name} onChange={(e) => setName(e.target.value)} maxLength={24} autoComplete="username" required autoFocus />
           </label>
         )}
@@ -126,7 +126,7 @@ export function InvitePage({ code, onDone }: { code: string; onDone: () => void 
         </label>
         {error && <p className="error">{error}</p>}
         <button className="btn btn-primary btn-block" disabled={busy}>
-          {busy ? 'Moment …' : info.resetName ? 'Passwort speichern' : "Los geht's"}
+          {busy ? 'Speichern …' : info.resetName ? 'Passwort speichern' : 'Account anlegen'}
         </button>
       </form>
     </AuthShell>

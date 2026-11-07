@@ -95,8 +95,8 @@ export function AddGameDialog({
     <Modal onClose={onClose}>
       <h2 className="modal-title">Spiel vorschlagen</h2>
       <p className="muted">
-        Such das Spiel auf Steam – Bilder, Beschreibung und Multiplayer-Infos holen wir automatisch
-        {aiEnrichment ? ' (inkl. KI-Check, ob es für 10+ Leute taugt)' : ''}.
+        Such das Spiel auf Steam. Bilder, Beschreibung und Multiplayer-Infos kommen von dort.
+        {aiEnrichment ? ' Claude prüft zusätzlich, ob es für die ganze Gruppe taugt.' : ''}
       </p>
 
       {!ready && (
@@ -112,7 +112,7 @@ export function AddGameDialog({
                 </button>
               </li>
             ))}
-            {searching && <li className="muted">Suche …</li>}
+            {searching && <li className="muted">Suche läuft …</li>}
             {!searching && query.trim().length >= 2 && !hits.length && <li className="muted">Nichts auf Steam gefunden.</li>}
           </ul>
           <button
@@ -123,7 +123,7 @@ export function AddGameDialog({
               setName(query.trim());
             }}
           >
-            Nicht auf Steam? Manuell eintragen
+            Nicht auf Steam? Von Hand eintragen
           </button>
         </div>
       )}
@@ -171,7 +171,7 @@ export function AddGameDialog({
           </div>
           <label className="check">
             <input type="checkbox" checked={questionable} onChange={(e) => setQuestionable(e.target.checked)} />
-            <span>Als „fraglich“ markieren – nicht sicher, ob es für die ganze Gruppe passt</span>
+            <span>Fraglich: vielleicht nicht für die ganze Gruppe</span>
           </label>
           {questionable && (
             <label className="field">

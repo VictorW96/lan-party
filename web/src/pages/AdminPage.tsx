@@ -20,7 +20,7 @@ function CopyLink({ url }: { url: string }) {
           setTimeout(() => setCopied(false), 1500);
         }}
       >
-        {copied ? 'Kopiert ✓' : 'Kopieren'}
+        {copied ? 'Kopiert' : 'Kopieren'}
       </button>
     </div>
   );
@@ -84,7 +84,7 @@ export function AdminPage({ user, onLogout }: { user: User; onLogout: () => void
             <section className="panel">
               <h2>Freunde einladen</h2>
               <p className="muted">
-                Jeder bekommt einen persönlichen Link, der genau einmal funktioniert. Damit legt er Namen und Passwort fest – und hat
+                Jeder bekommt einen eigenen Link, der genau einmal funktioniert. Darüber legt man Namen und Passwort fest und hat
                 dann {data.settings.maxVotes} Votes.
               </p>
               <form className="row" onSubmit={invite}>
@@ -147,7 +147,7 @@ export function AdminPage({ user, onLogout }: { user: User; onLogout: () => void
                 <button className="btn btn-ghost">Speichern</button>
               </form>
               <p className="muted small">
-                KI-Anreicherung: {data.settings.aiEnrichment ? 'aktiv (Claude)' : 'aus – nur Steam-Daten. Setze ANTHROPIC_API_KEY zum Aktivieren.'}
+                KI-Anreicherung: {data.settings.aiEnrichment ? 'aktiv (Claude)' : 'aus, nur Steam-Daten. Zum Einschalten ANTHROPIC_API_KEY setzen.'}
               </p>
             </section>
 

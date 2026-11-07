@@ -19,6 +19,6 @@ export function voteLimitError(
   if (wanted === 0) return null;
   if (usedElsewhere + wanted > limits.maxVotes) return `Du hast nur ${limits.maxVotes} Votes. Nimm erst woanders einen weg.`;
   if (game.category === 'classic' && classicElsewhere + wanted > limits.maxClassicVotes)
-    return `Maximal ${limits.maxClassicVotes} Votes für Klassiker – gib den Rest einem Newcomer!`;
+    return `Deine ${limits.maxClassicVotes} Klassiker-Votes sind vergeben. Der Rest geht an Newcomer.`;
   return null;
 }

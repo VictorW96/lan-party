@@ -1,6 +1,5 @@
-import '@fontsource/chakra-petch/500.css';
-import '@fontsource/chakra-petch/700.css';
-import '@fontsource-variable/inter';
+import '@fontsource-variable/big-shoulders';
+import '@fontsource-variable/atkinson-hyperlegible-next';
 import './styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

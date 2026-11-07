@@ -25,7 +25,7 @@ function Podium({ games, onOpen }: { games: Game[]; onOpen: (g: Game) => void })
           <Cover game={g} variant="hero" className="podium-bg" />
           <div className="podium-shade" />
           <div className="podium-content">
-            <span className="podium-rank">#{i + 1}</span>
+            <span className="podium-rank">{i + 1}</span>
             <div>
               <Badges game={g} />
               <h3>{g.name}</h3>
@@ -60,10 +60,10 @@ function GameRow({
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen(game)}
     >
-      <div className="game-rank">{String(rank).padStart(2, '0')}</div>
+      <div className="game-rank">{rank}</div>
       <div className="game-art">
         <Cover game={game} />
-        {game.enrichStatus === 'pending' && <span className="game-art-loading">wird angereichert …</span>}
+        {game.enrichStatus === 'pending' && <span className="game-art-loading">lädt …</span>}
       </div>
       <div className="game-body">
         <div className="game-head">
@@ -71,8 +71,10 @@ function GameRow({
           {game.note && <span className="game-note">„{game.note}“</span>}
         </div>
         <h3 className="game-title">{game.name}</h3>
-        {game.questionable && game.questionableReason && <p className="game-warn">⚠ {game.questionableReason}</p>}
-        <p className="game-desc">{game.description ?? (game.enrichStatus === 'pending' ? 'Infos werden gesammelt …' : '')}</p>
+        {game.questionable && game.questionableReason && <p className="game-warn">
+            <b>Fraglich:</b> {game.questionableReason}
+          </p>}
+        <p className="game-desc">{game.description ?? (game.enrichStatus === 'pending' ? 'Infos laden noch.' : '')}</p>
         <div className="game-foot">
           <Meta game={game} minPlayers={board.settings.minPlayers} />
           <Voters voters={game.voters} />
@@ -160,7 +162,12 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
     );
 
   const budget = voteBudget(board);
-  const { maxVotes, maxClassicVotes } = board.settings;
+  const { maxVotes, maxClassicVotes, maxVotesPerGame, eventDate } = board.settings;
+  const eventTime = eventDate ? new Date(eventDate) : null;
+  const eventLabel =
+    eventTime && !Number.isNaN(eventTime.getTime())
+      ? `${eventTime.toLocaleString('de-DE', { weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })} Uhr`
+      : '';
   const top = board.games.filter((g) => g.votes > 0).slice(0, 3);
   const openGame = board.games.find((g) => g.id === openId) ?? null;
 
@@ -174,39 +181,39 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
       />
       <main className="page">
         <section className="hero">
-          <p className="kicker">House of Gaming · Miesbach</p>
-          <h1>
-            Was zocken wir <span className="grad">auf der LAN?</span>
-          </h1>
-          <p className="lead">
-            Du hast <strong>{maxVotes} Votes</strong> für die Spiele, die du unbedingt spielen willst – davon höchstens{' '}
-            <strong className="tx-classic">{maxClassicVotes} für Klassiker</strong>, der Rest geht an{' '}
-            <span className="tx-newcomer">Newcomer</span>. Die Liste wechselt zwischen beiden ab. Geeignet ist, was mindestens{' '}
-            {board.settings.minPlayers} Leute zusammen im LAN oder online spielen können.
+          <p className="dateline">
+            House of Gaming, Miesbach
+            {eventLabel && ` · ${eventLabel}`}
           </p>
-          <div className="hero-stats">
+          <h1>Was zocken wir auf der LAN?</h1>
+          <p className="lead">
+            Du hast {maxVotes} Votes, höchstens {maxVotesPerGame} pro Spiel. {maxClassicVotes} davon dürfen an Klassiker gehen, der Rest
+            an Newcomer. Auf die Liste gehört, was mindestens {board.settings.minPlayers} Leute zusammen spielen können. Oben stehen
+            Klassiker und Newcomer abwechselnd.
+          </p>
+          <dl className="tally">
             <div>
-              <strong>{board.games.length}</strong>
-              <span>Spiele</span>
+              <dt>Spiele</dt>
+              <dd>{board.games.length}</dd>
             </div>
             <div>
-              <strong>
+              <dt>haben gevotet</dt>
+              <dd>
                 {board.stats.voted}/{board.stats.players}
-              </strong>
-              <span>haben gevotet</span>
+              </dd>
             </div>
-            <div className={budget.left === 0 ? 'stat-done' : ''}>
-              <strong>{budget.left}</strong>
-              <span>{budget.left === 1 ? 'Vote übrig' : 'Votes übrig'}</span>
+            <div className="is-mine">
+              <dt>{budget.left === 1 ? 'Vote übrig' : 'Votes übrig'}</dt>
+              <dd>{budget.left}</dd>
             </div>
-            <div className={`stat-classic${budget.classicUsed >= maxClassicVotes ? ' stat-full' : ''}`}>
-              <strong>
+            <div className={budget.classicUsed >= maxClassicVotes ? 'is-full' : ''}>
+              <dt>Klassiker-Votes</dt>
+              <dd>
                 {budget.classicUsed}/{maxClassicVotes}
-              </strong>
-              <span>Klassiker-Votes</span>
+              </dd>
             </div>
-          </div>
-          {!board.settings.votingOpen && <p className="banner">🔒 Die Abstimmung ist geschlossen – das hier ist das Endergebnis.</p>}
+          </dl>
+          {!board.settings.votingOpen && <p className="banner">Abstimmung geschlossen. Das ist das Endergebnis.</p>}
         </section>
 
         <Podium games={top} onOpen={(g) => setOpenId(g.id)} />
@@ -222,7 +229,7 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
           <div className="toolbar-right">
             <input className="search" placeholder="Suchen …" value={query} onChange={(e) => setQuery(e.target.value)} />
             <button className="btn btn-primary" onClick={() => setAdding(true)}>
-              + Spiel vorschlagen
+              Spiel vorschlagen
             </button>
           </div>
         </div>
@@ -244,7 +251,7 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
           onClose={() => setAdding(false)}
           onAdded={async (name) => {
             setAdding(false);
-            setToast(`„${name}“ hinzugefügt – Bilder & Infos kommen gleich.`);
+            setToast(`„${name}“ steht auf der Liste. Bilder und Infos laden noch.`);
             await load();
           }}
         />

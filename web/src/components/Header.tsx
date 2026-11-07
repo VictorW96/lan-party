@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { navigate, type User } from '../api.ts';
-import { Avatar } from './bits.tsx';
+import { Avatar, Box } from './bits.tsx';
 import { Logo } from './Logo.tsx';
 
 function Countdown({ date }: { date: string }) {
@@ -12,27 +12,20 @@ function Countdown({ date }: { date: string }) {
   }, []);
   if (Number.isNaN(target)) return null;
   const diff = target - now;
-  if (diff <= 0)
-    return (
-      <span className="countdown countdown-live">
-        <span className="cd-dot" /> LAN läuft!
-      </span>
-    );
-  const units = [
-    { value: Math.floor(diff / 86_400_000), label: 'Tage' },
-    { value: Math.floor((diff % 86_400_000) / 3_600_000), label: 'Std' },
-    { value: Math.floor((diff % 3_600_000) / 60_000), label: 'Min' },
-  ];
   const when = new Date(date).toLocaleString('de-DE', { weekday: 'short', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+  if (diff <= 0) return <span className="countdown countdown-live">LAN läuft</span>;
+  const days = Math.floor(diff / 86_400_000);
+  const hours = Math.floor((diff % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((diff % 3_600_000) / 60_000);
   return (
     <span className="countdown" title={`LAN-Start: ${when} Uhr`}>
-      <span className="cd-label">LAN in</span>
-      {units.map((u, i) => (
-        <span key={u.label} className="cd-unit">
-          <strong>{i === 0 ? u.value : String(u.value).padStart(2, '0')}</strong>
-          <small>{u.label}</small>
-        </span>
-      ))}
+      <small>LAN in</small>
+      <b>{days}</b>
+      <small>{days === 1 ? 'Tag' : 'Tage'}</small>
+      <b>{String(hours).padStart(2, '0')}</b>
+      <small>Std</small>
+      <b>{String(minutes).padStart(2, '0')}</b>
+      <small>Min</small>
     </span>
   );
 }
@@ -63,18 +56,15 @@ export function Header({
         {eventDate && <Countdown date={eventDate} />}
         {votes && (
           <div
-            className="pips"
-            title={`${Math.max(0, votes.max - votes.classic - votes.newcomer)} von ${votes.max} Votes übrig · ${votes.classic} Klassiker, ${votes.newcomer} Newcomer`}
+            className="budget"
+            title={`${Math.max(0, votes.max - votes.classic - votes.newcomer)} von ${votes.max} Votes übrig. Vergeben: ${votes.classic} Klassiker, ${votes.newcomer} Newcomer.`}
           >
-            {Array.from({ length: votes.max }, (_, i) => (
-              <span
-                key={i}
-                className={`pip${i < votes.classic ? ' pip-classic' : i < votes.classic + votes.newcomer ? ' pip-newcomer' : ''}`}
-              />
-            ))}
-            <span className="pips-label">
-              {Math.max(0, votes.max - votes.classic - votes.newcomer)}/{votes.max}
+            <span className="budget-boxes">
+              {Array.from({ length: votes.max }, (_, i) => (
+                <Box key={i} on={i < votes.classic + votes.newcomer} small />
+              ))}
             </span>
+            <span className="budget-label">{Math.max(0, votes.max - votes.classic - votes.newcomer)} übrig</span>
           </div>
         )}
         <div className="usermenu">

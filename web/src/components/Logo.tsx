@@ -1,25 +1,20 @@
+/** A ballot box with a pen cross, next to the plain wordmark. */
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
     <div className={`logo${compact ? ' logo-compact' : ''}`}>
-      <span className="logo-mark" aria-hidden>
-        <svg viewBox="0 0 64 64">
-          <path
-            d="M14 22h36a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6H40l-4-5h-8l-4 5H14a6 6 0 0 1-6-6V28a6 6 0 0 1 6-6z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="4"
-            strokeLinejoin="round"
-          />
-          <path d="M19 30v8M15 34h8" stroke="var(--classic)" strokeWidth="4" strokeLinecap="round" />
-          <circle cx="43" cy="31" r="2.6" fill="var(--warn)" />
-          <circle cx="48" cy="36" r="2.6" fill="var(--accent)" />
-        </svg>
-      </span>
+      <svg className="logo-mark" viewBox="0 0 64 64" aria-hidden>
+        <rect x="4" y="4" width="56" height="56" rx="2" fill="var(--sheet)" stroke="var(--ink)" strokeWidth="6" />
+        <path
+          d="M15 16c9.5 9.4 19 19.6 34 33M48 15C38.6 23.7 28.4 34.4 16 49"
+          fill="none"
+          stroke="var(--pen)"
+          strokeWidth="6"
+          strokeLinecap="round"
+        />
+      </svg>
       <span className="logo-text">
         <span className="logo-top">House of Gaming</span>
-        <span className="logo-main">
-          LAN<span className="logo-dash">//</span>VOTE
-        </span>
+        <span className="logo-main">LAN-Wahl</span>
       </span>
     </div>
   );

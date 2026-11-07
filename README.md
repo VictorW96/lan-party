@@ -1,4 +1,4 @@
-# LAN//VOTE – House of Gaming
+# LAN-Wahl · House of Gaming
 
 Abstimmungsseite für unsere LAN-Party im House of Gaming in Miesbach. Läuft unter
 **https://victor-wolf.com/lanparty** im k3s-Cluster von Defense of Solaris.

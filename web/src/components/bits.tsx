@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { Category, Game, Voter } from '../api.ts';
 
 export const CATEGORY_LABEL: Record<Category, string> = { classic: 'Klassiker', newcomer: 'Newcomer' };
@@ -28,7 +28,7 @@ export function Cover({ game, variant = 'header', className = '' }: { game: Game
     return (
       <div
         className={`cover cover-generated ${className}`}
-        style={{ background: `linear-gradient(135deg, hsl(${h} 70% 22%), hsl(${(h + 60) % 360} 80% 12%))` }}
+        style={{ '--h': h } as CSSProperties}
         aria-label={game.name}
       >
         <span>{initials}</span>
@@ -36,6 +36,21 @@ export function Cover({ game, variant = 'header', className = '' }: { game: Game
     );
   }
   return <img className={`cover ${className}`} src={src} alt="" loading="lazy" onError={() => setIndex((i) => i + 1)} />;
+}
+
+/** A slightly uneven ballpoint cross, drawn inside a ballot box. */
+export function Cross() {
+  return (
+    <svg viewBox="0 0 28 28" aria-hidden>
+      <path d="M5.5 6.2C11 11.5 16.5 17.4 22.8 22.6" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path d="M22.4 5.4C16.8 10.4 10.9 16.6 5.2 23.1" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** A ballot box, crossed when `on`. */
+export function Box({ on, small = false }: { on: boolean; small?: boolean }) {
+  return <span className={`box${small ? ' box-sm' : ''}${on ? ' on' : ''}`}>{on && <Cross />}</span>;
 }
 
 export function Avatar({ voter, size = 26 }: { voter: Pick<Voter, 'name' | 'color'>; size?: number }) {
@@ -67,7 +82,7 @@ export function Badges({ game }: { game: Game }) {
       <span className={`badge badge-${game.category}`}>{CATEGORY_LABEL[game.category]}</span>
       {game.questionable && (
         <span className="badge badge-warn" title={game.questionableReason ?? undefined}>
-          ⚠ Fraglich
+          Fraglich
         </span>
       )}
     </div>

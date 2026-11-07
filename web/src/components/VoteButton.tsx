@@ -1,5 +1,10 @@
 import { voteBudget, type Board, type Game } from '../api.ts';
+import { Cross } from './bits.tsx';
 
+/**
+ * Total votes plus one ballot box per vote you may give this game. Clicking an empty box adds a cross,
+ * clicking a crossed one takes one away.
+ */
 export function VoteButton({
   game,
   board,
@@ -15,55 +20,39 @@ export function VoteButton({
   const budget = voteBudget(board);
   const classicFull = game.category === 'classic' && budget.classicLeft === 0 && budget.left > 0;
   const blocked = !votingOpen
-    ? 'Abstimmung geschlossen'
+    ? 'Die Abstimmung ist geschlossen.'
     : budget.left === 0
-      ? 'Keine Votes mehr übrig'
+      ? 'Du hast alle Votes vergeben. Nimm erst woanders einen weg.'
       : classicFull
-        ? `Maximal ${maxClassicVotes} Votes für Klassiker – vote einen Newcomer!`
+        ? `Deine ${maxClassicVotes} Klassiker-Votes sind vergeben. Der Rest geht an Newcomer.`
         : game.myVotes >= maxVotesPerGame
-          ? `Maximal ${maxVotesPerGame} Votes pro Spiel`
+          ? `Pro Spiel gehen höchstens ${maxVotesPerGame} Votes.`
           : null;
-  const size = large ? ' vote-lg' : '';
-
-  if (maxVotesPerGame === 1) {
-    const active = game.myVotes > 0;
-    return (
-      <button
-        className={`vote${size}${active ? ' vote-active' : ''}${!active && classicFull ? ' vote-capped' : ''}`}
-        disabled={!votingOpen || (!active && Boolean(blocked))}
-        onClick={(e) => {
-          e.stopPropagation();
-          onVote(game, active ? 0 : 1);
-        }}
-        title={active ? undefined : (blocked ?? undefined)}
-      >
-        <span className="vote-count">{game.votes}</span>
-        <span className="vote-label">{active ? '✓ Gevotet' : classicFull ? 'Klassiker voll' : '+ Vote'}</span>
-      </button>
-    );
-  }
 
   return (
-    <div
-      className={`vote vote-stepper${size}${game.myVotes ? ' vote-active' : ''}${!game.myVotes && classicFull ? ' vote-capped' : ''}`}
-      onClick={(e) => e.stopPropagation()}
-      title={blocked ?? undefined}
-    >
-      <span className="vote-count">{game.votes}</span>
-      <div className="vote-steps">
-        <button disabled={!votingOpen || game.myVotes === 0} onClick={() => onVote(game, game.myVotes - 1)} aria-label="Vote entfernen">
-          −
-        </button>
-        <span className="vote-mine" aria-label={`Deine Votes: ${game.myVotes} von ${maxVotesPerGame}`}>
-          {Array.from({ length: maxVotesPerGame }, (_, i) => (
-            <i key={i} className={i < game.myVotes ? 'on' : ''} />
-          ))}
-        </span>
-        <button disabled={Boolean(blocked)} onClick={() => onVote(game, game.myVotes + 1)} aria-label="Vote hinzufügen">
-          +
-        </button>
-      </div>
-      {!game.myVotes && classicFull && <span className="vote-label">Klassiker voll</span>}
+    <div className={`vote${large ? ' vote-lg' : ''}`} onClick={(e) => e.stopPropagation()} title={blocked ?? undefined}>
+      <span className="vote-count">
+        {game.votes}
+        {large && <small>{game.votes === 1 ? 'Vote' : 'Votes'} insgesamt</small>}
+      </span>
+      <span className="vote-boxes">
+        {Array.from({ length: maxVotesPerGame }, (_, i) => {
+          const on = i < game.myVotes;
+          return (
+            <button
+              key={i}
+              className={`box${on ? ' on' : ''}`}
+              disabled={on ? !votingOpen : Boolean(blocked)}
+              aria-pressed={on}
+              aria-label={on ? 'Vote zurücknehmen' : 'Vote geben'}
+              onClick={() => onVote(game, on ? game.myVotes - 1 : game.myVotes + 1)}
+            >
+              {on && <Cross />}
+            </button>
+          );
+        })}
+      </span>
+      {!game.myVotes && classicFull && <span className="vote-note">Klassiker voll</span>}
     </div>
   );
 }

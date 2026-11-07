@@ -106,7 +106,7 @@ export function GameDialog({
   const canEdit = Boolean(user.is_admin) || game.addedById === user.id;
 
   const remove = async () => {
-    if (!confirm(`„${game.name}“ wirklich von der Liste löschen? Alle Votes dafür gehen verloren.`)) return;
+    if (!confirm(`„${game.name}“ von der Liste löschen? Alle Votes dafür gehen verloren.`)) return;
     await api(`/games/${game.id}`, { method: 'DELETE' });
     onClose();
     await onChanged();
@@ -142,8 +142,12 @@ export function GameDialog({
         ) : (
           <div className="detail-body">
             <div className="detail-main">
-              {game.questionable && <p className="game-warn">⚠ {game.questionableReason || 'Fraglich, ob das für die ganze Gruppe passt.'}</p>}
-              <p className="detail-desc">{game.description || 'Noch keine Beschreibung.'}</p>
+              {game.questionable && (
+                <p className="game-warn">
+                  <b>Fraglich:</b> {game.questionableReason || 'Vielleicht nicht für die ganze Gruppe.'}
+                </p>
+              )}
+              <p className="detail-desc">{game.description || 'Keine Beschreibung.'}</p>
               <Meta game={game} minPlayers={board.settings.minPlayers} />
               {game.tags.length > 0 && (
                 <div className="tags">
@@ -189,7 +193,7 @@ export function GameDialog({
               </dl>
               {game.storeUrl && (
                 <a className="btn btn-ghost btn-block" href={game.storeUrl} target="_blank" rel="noreferrer">
-                  {game.steamAppId ? 'Auf Steam ansehen ↗' : 'Zur Website ↗'}
+                  {game.steamAppId ? 'Auf Steam ansehen' : 'Zur Website'}
                 </a>
               )}
               {canEdit && (
