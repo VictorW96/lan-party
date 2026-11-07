@@ -22,6 +22,7 @@ import { db, getSetting, setSetting, transaction } from './db.ts';
 import { enrichGame } from './enrich.ts';
 import { rankGames, type Category } from './ranking.ts';
 import { parseSteamAppId, searchSteam } from './steam.ts';
+import { voteLimitError } from './votes.ts';
 
 type GameRow = {
   id: number;
@@ -71,6 +72,7 @@ function settings() {
     eventDate: getSetting('event_date', ''),
     maxVotes: config.maxVotes,
     maxVotesPerGame: config.maxVotesPerGame,
+    maxClassicVotes: config.maxClassicVotes,
     minPlayers: config.minPlayers,
     aiEnrichment: config.aiEnrichment,
   };
@@ -112,7 +114,7 @@ function findInvite(code: string): InviteRow {
 api.get('/invites/:code', (c) => {
   checkRateLimit(`invite:${clientIp(c)}`, 30);
   const invite = findInvite(c.req.param('code'));
-  return c.json({ label: invite.label, isAdmin: Boolean(invite.is_admin), resetName: invite.reset_name });
+  return c.json({ label: invite.label, isAdmin: Boolean(invite.is_admin), resetName: invite.reset_name, maxVotes: config.maxVotes });
 });
 
 api.post('/invites/:code', async (c) => {
@@ -197,16 +199,19 @@ api.put('/games/:id/vote', async (c) => {
   const { count } = await body<{ count: number }>(c);
   const wanted = Number(count);
   if (!settings().votingOpen) throw new HTTPException(423, { message: 'Die Abstimmung ist geschlossen.' });
-  if (!Number.isInteger(wanted) || wanted < 0 || wanted > config.maxVotesPerGame)
-    throw new HTTPException(400, { message: `Pro Spiel sind maximal ${config.maxVotesPerGame} Votes erlaubt.` });
 
   transaction(() => {
-    if (!db.prepare('SELECT 1 FROM games WHERE id = ?').get(gameId)) throw new HTTPException(404, { message: 'Spiel nicht gefunden.' });
-    const { used } = db
-      .prepare('SELECT COALESCE(SUM(count), 0) AS used FROM votes WHERE user_id = ? AND game_id != ?')
-      .get(user.id, gameId) as { used: number };
-    if (used + wanted > config.maxVotes)
-      throw new HTTPException(409, { message: `Du hast nur ${config.maxVotes} Votes. Nimm erst woanders einen weg.` });
+    const game = db.prepare('SELECT category FROM games WHERE id = ?').get(gameId) as { category: Category } | undefined;
+    if (!game) throw new HTTPException(404, { message: 'Spiel nicht gefunden.' });
+    const { used, classic } = db
+      .prepare(
+        `SELECT COALESCE(SUM(v.count), 0) AS used,
+                COALESCE(SUM(CASE WHEN g.category = 'classic' THEN v.count END), 0) AS classic
+         FROM votes v JOIN games g ON g.id = v.game_id WHERE v.user_id = ? AND v.game_id != ?`,
+      )
+      .get(user.id, gameId) as { used: number; classic: number };
+    const error = voteLimitError(config, game, wanted, used, classic);
+    if (error) throw new HTTPException(409, { message: error });
     if (wanted === 0) db.prepare('DELETE FROM votes WHERE user_id = ? AND game_id = ?').run(user.id, gameId);
     else
       db.prepare(

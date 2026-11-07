@@ -56,7 +56,7 @@ export function LoginPage({ onDone }: { onDone: () => void }) {
   );
 }
 
-type InviteInfo = { label: string; isAdmin: boolean; resetName: string | null };
+type InviteInfo = { label: string; isAdmin: boolean; resetName: string | null; maxVotes: number };
 
 export function InvitePage({ code, onDone }: { code: string; onDone: () => void }) {
   const [info, setInfo] = useState<InviteInfo | null>(null);
@@ -106,7 +106,7 @@ export function InvitePage({ code, onDone }: { code: string; onDone: () => void 
     <AuthShell kicker={info.resetName ? `Neues Passwort für ${info.resetName}` : 'Du bist eingeladen!'}>
       {!info.resetName && (
         <p className="lead">
-          Leg dir deinen Account an. Damit bekommst du <strong>6 Votes</strong> für die Spiele, die wir auf der LAN zocken.
+          Leg dir deinen Account an. Damit bekommst du <strong>{info.maxVotes} Votes</strong> für die Spiele, die wir auf der LAN zocken.
         </p>
       )}
       <form onSubmit={submit} className="stack">

@@ -37,13 +37,26 @@ export type Settings = {
   eventDate: string;
   maxVotes: number;
   maxVotesPerGame: number;
+  maxClassicVotes: number;
   minPlayers: number;
   aiEnrichment: boolean;
 };
 
 export type Board = { games: Game[]; settings: Settings; stats: { players: number; voted: number } };
 
-export type SteamHit = { appid: number; name: string; image: string; price: string | null };
+export function voteBudget(board: Board) {
+  const used = board.games.reduce((sum, g) => sum + g.myVotes, 0);
+  const classicUsed = board.games.reduce((sum, g) => sum + (g.category === 'classic' ? g.myVotes : 0), 0);
+  return {
+    used,
+    classicUsed,
+    newcomerUsed: used - classicUsed,
+    left: Math.max(0, board.settings.maxVotes - used),
+    classicLeft: Math.max(0, Math.min(board.settings.maxClassicVotes - classicUsed, board.settings.maxVotes - used)),
+  };
+}
+
+export type SteamHit ={ appid: number; name: string; image: string; price: string | null };
 
 export class ApiError extends Error {
   constructor(

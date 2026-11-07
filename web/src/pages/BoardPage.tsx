@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { api, type Board, type Game, type User } from '../api.ts';
+import { api, voteBudget, type Board, type Game, type User } from '../api.ts';
 import { AddGameDialog } from '../components/AddGameDialog.tsx';
 import { Badges, Cover, Meta, Voters } from '../components/bits.tsx';
 import { GameDialog } from '../components/GameDialog.tsx';
@@ -159,8 +159,8 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
       </>
     );
 
-  const used = board.games.reduce((s, g) => s + g.myVotes, 0);
-  const left = board.settings.maxVotes - used;
+  const budget = voteBudget(board);
+  const { maxVotes, maxClassicVotes } = board.settings;
   const top = board.games.filter((g) => g.votes > 0).slice(0, 3);
   const openGame = board.games.find((g) => g.id === openId) ?? null;
 
@@ -169,8 +169,7 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
       <Header
         user={user}
         onLogout={onLogout}
-        votesUsed={used}
-        maxVotes={board.settings.maxVotes}
+        votes={{ classic: budget.classicUsed, newcomer: budget.newcomerUsed, max: maxVotes }}
         eventDate={board.settings.eventDate || undefined}
       />
       <main className="page">
@@ -180,9 +179,10 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
             Was zocken wir <span className="grad">auf der LAN?</span>
           </h1>
           <p className="lead">
-            Du hast <strong>{board.settings.maxVotes} Votes</strong>. Verteil sie auf die Spiele, die du unbedingt spielen willst – die
-            Liste wechselt zwischen <span className="tx-classic">Klassikern</span> und <span className="tx-newcomer">Newcomern</span>.
-            Geeignet ist, was mindestens {board.settings.minPlayers} Leute zusammen im LAN oder online spielen können.
+            Du hast <strong>{maxVotes} Votes</strong> für die Spiele, die du unbedingt spielen willst – davon höchstens{' '}
+            <strong className="tx-classic">{maxClassicVotes} für Klassiker</strong>, der Rest geht an{' '}
+            <span className="tx-newcomer">Newcomer</span>. Die Liste wechselt zwischen beiden ab. Geeignet ist, was mindestens{' '}
+            {board.settings.minPlayers} Leute zusammen im LAN oder online spielen können.
           </p>
           <div className="hero-stats">
             <div>
@@ -195,9 +195,15 @@ export function BoardPage({ user, onLogout }: { user: User; onLogout: () => void
               </strong>
               <span>haben gevotet</span>
             </div>
-            <div className={left === 0 ? 'stat-done' : ''}>
-              <strong>{left}</strong>
-              <span>{left === 1 ? 'Vote übrig' : 'Votes übrig'}</span>
+            <div className={budget.left === 0 ? 'stat-done' : ''}>
+              <strong>{budget.left}</strong>
+              <span>{budget.left === 1 ? 'Vote übrig' : 'Votes übrig'}</span>
+            </div>
+            <div className={`stat-classic${budget.classicUsed >= maxClassicVotes ? ' stat-full' : ''}`}>
+              <strong>
+                {budget.classicUsed}/{maxClassicVotes}
+              </strong>
+              <span>Klassiker-Votes</span>
             </div>
           </div>
           {!board.settings.votingOpen && <p className="banner">🔒 Die Abstimmung ist geschlossen – das hier ist das Endergebnis.</p>}

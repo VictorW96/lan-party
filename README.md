@@ -3,7 +3,8 @@
 Abstimmungsseite für unsere LAN-Party im House of Gaming in Miesbach. Läuft unter
 **https://victor-wolf.com/lanparty** im k3s-Cluster von Defense of Solaris.
 
-- Jeder Freund hat einen eigenen Account und **6 Votes** (max. 1 pro Spiel, beides per Env-Variable änderbar).
+- Jeder Freund hat einen eigenen Account und **8 Votes** (max. 1 pro Spiel). Höchstens **5 davon dürfen auf
+  Klassiker** gehen, der Rest muss an Newcomer. Alles per Env-Variable änderbar.
 - Die Liste wechselt zwischen **Klassikern** und **Newcomern**, jeweils nach Votes sortiert. Sobald eine
   Kategorie keine Spiele mit Votes mehr hat, geht es rein nach Votes weiter (`server/ranking.ts`).
 - Spiele mit Tag **„Fraglich“** sind nicht sicher LAN-tauglich (Ziel: mindestens 10 Spieler gemeinsam).
@@ -18,7 +19,7 @@ Abstimmungsseite für unsere LAN-Party im House of Gaming in Miesbach. Läuft un
 Keine offene Registrierung. Der Admin erstellt im Admin-Bereich pro Freund einen **persönlichen
 Einladungslink**, der genau einmal funktioniert. Darüber legt der Freund Namen und Passwort fest und ist
 danach eingeloggt (Session-Cookie für 180 Tage). So kommen nur eingeladene Leute auf die Seite, und
-jeder Account hat genau ein Kontingent von 6 Votes. Vergessene Passwörter: Admin → „Passwort-Reset-Link“.
+jeder Account hat genau ein Vote-Kontingent. Vergessene Passwörter: Admin → „Passwort-Reset-Link“.
 
 Beim allerersten Start gibt es noch keinen Admin. Dann steht ein Admin-Einladungslink im Log.
 
@@ -66,8 +67,9 @@ Den Admin-Einladungslink zeigt die Server-Konsole. Tests und Typecheck: `npm tes
 |---|---|---|
 | `BASE_PATH` | `/lanparty` | URL-Präfix |
 | `PUBLIC_URL` | `http://localhost:5173/lanparty` | Basis für Einladungslinks |
-| `MAX_VOTES` | `6` | Votes pro Person |
+| `MAX_VOTES` | `8` | Votes pro Person |
 | `MAX_VOTES_PER_GAME` | `1` | Votes, die man auf ein Spiel stapeln darf |
+| `MAX_CLASSIC_VOTES` | `5` | Davon höchstens so viele für Klassiker |
 | `MIN_PLAYERS` | `10` | Ab wie vielen Spielern ein Spiel als geeignet gilt |
 | `ANTHROPIC_API_KEY` | – | Aktiviert die Claude-Recherche für neue Spiele |
 | `ANTHROPIC_MODEL` | `claude-opus-5-5` | Modell für die Recherche |

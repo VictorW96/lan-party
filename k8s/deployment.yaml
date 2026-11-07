@@ -33,9 +33,11 @@ spec:
             - name: PUBLIC_URL
               value: https://victor-wolf.com/lanparty
             - name: MAX_VOTES
-              value: "6"
+              value: "8"
             - name: MAX_VOTES_PER_GAME
               value: "1"
+            - name: MAX_CLASSIC_VOTES
+              value: "5"
           # Optional: ANTHROPIC_API_KEY turns on the Claude check for newly added games.
           envFrom:
             - secretRef:
