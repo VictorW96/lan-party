@@ -15,9 +15,9 @@
     "test": "node --test --disable-warning=ExperimentalWarning server/*.test.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^1.6.0",
-    "@hono/node-server": "^2.1.6",
-    "hono": "^4.13.17"
+    "@anthropic-ai/sdk": "^1.8.0",
+    "@hono/node-server": "^2.1.8",
+    "hono": "^4.13.18"
   },
   "devDependencies": {
     "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
@@ -25,10 +25,10 @@
     "@types/node": "^22.20.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.2.1",
+    "@vitejs/plugin-react": "^6.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "typescript": "^7.0.2",
-    "vite": "^8.3.6"
+    "vite": "^8.3.8"
   }
 }
